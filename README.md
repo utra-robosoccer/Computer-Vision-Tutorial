@@ -15,7 +15,7 @@ Run following commands
 ```
 mkdir -p catkin_ws/src
 cd catkin_ws/src
-git clone https://github.com/utra-robosoccer/Tutorials-2020.git
+git clone https://github.com/utra-robosoccer/Computer-Vision-Tutorial.git
 ```
 
 ## Updating Dependencies
