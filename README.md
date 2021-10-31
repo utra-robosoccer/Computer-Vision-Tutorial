@@ -1,24 +1,25 @@
 # Computer Vision Tutorial
 
-- The publisher portion is based on this [ROS tutorial](https://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29)
+- The publisher/subscriber and OpenCV portion is based on this [ROS tutorial](http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython)
 
 ## Prerequisites
-- have ubuntu and ROS installed
+- Install Ubuntu in Virtual Machine or Dual boot (Ubuntu 20 preferred)
+- Install ROS (ROS Noetic preferred)
 
 ## Cloning the repo
-From home directory create /catkin_ws/src folder and run the following command
+Go to home directory if you're not already there
+```
+cd ~
+```
+Run following commands
 ```
 mkdir -p catkin_ws/src
 cd catkin_ws/src
 git clone https://github.com/utra-robosoccer/Tutorials-2020.git
 ```
 
-## Switch To computer_vision branch
-```
-git switch computer_vision
-```
-
 ## Updating Dependencies
+The following commands will look inside package.xml and install opencv for you
 ```
 cd ~/catkin_ws/
 rosdep update
@@ -26,12 +27,13 @@ rosdep install --from-paths src --ignore-src -r -y --rosdistro noetic
 ```
 
 ## Building tutorial package
-Sourcing setup file so helps the system know where to look for your built files
+Sourcing setup file lets your computer know where your project files are
 ```
 cd ~/catkin_ws
 catkin build computer_vision_pkg
 source devel/setup.bash
 ```
+
 
 ## Launch the robot
 ```
@@ -40,28 +42,30 @@ roslaunch computer_vision_pkg gazebo.launch
 
 ## Commands used during tutorial
 useful tip: press tab to auto-complete words as you type commands
-Open a new terminal to run commands for the robot
 
+To run motor controller node, open new terminal
 ```
 cd ~/catkin_ws
 source devel/setup.bash
-```
-To run the main node run this command
-```
-rosrun sumo my_publisher
+rosrun computer_vision_pkg motor_controller
 ```
 
-To send a command to the left arm
+To run planner node, go to /src folder
 ```
-rostopic pub /sumo_left_wheel_controller/command std_msgs/Float64 "data: 1.0"
+python3 planner.py
+```
+
+To send a command to the left wheel
+```
+rostopic pub /left_wheel_controller/command std_msgs/Float64 "data: 1.0"
+```
+
+To send a command to the motor controller
+```
+rostopic pub /motor_commands std_msgs/String "data: 'LEFT'"
 ```
 
 To see the ROS node tree run this command
 ```
 rqt_graph
-```
-
-To see the RVIZ node  run this command
-```
-rviz
 ```
